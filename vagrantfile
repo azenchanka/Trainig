@@ -14,13 +14,12 @@ cat task2
 SCRIPT
 
 Vagrant.configure("2") do |config| 
-    config.vm.box = "bertvv/centos72"
-    config.vm.provision "shell", inline: $hosts
+  config.vm.box = "bertvv/centos72"
+  config.vm.provision "shell", inline: $hosts
 
   config.vm.provider "virtualbox" do |vb|
     vb.gui = true
   end
-
 
   config.vm.define "server1" do |server1|
     server1.vm.provision "shell", inline: $install

@@ -2,13 +2,16 @@ $install = <<-SCRIPT
 yum -y install git
 SCRIPT
 $hosts = <<-SCRIPT
-echo "192.168.56.101    server1 server1" >> /etc/hosts
-echo "192.168.56.102    server2 server2" >> /etc/hosts
+echo "192.168.56.101	server1 server1" >> /etc/hosts
+echo "192.168.56.102	server2 server2" >> /etc/hosts
+SCRIPT
+$git_clone = <<-SCRIPT
+git clone https://github.com/azenchanka/Trainig.git
 SCRIPT
 
 Vagrant.configure("2") do |config| 
-  config.vm.box = "bertvv/centos72"
-  config.vm.provision "shell", inline: $hosts
+    config.vm.box = "bertvv/centos72"
+    config.vm.provision "shell", inline: $hosts
 
   config.vm.provider "virtualbox" do |vb|
     vb.gui = true
@@ -16,7 +19,8 @@ Vagrant.configure("2") do |config|
 
 
   config.vm.define "server1" do |server1|
-    server1.vm.provision "shell", inline: $install 
+    server1.vm.provision "shell", inline: $install
+    server1.vm.provision "shell", inline: $git_clone
     server1.vm.hostname = "server1"
     server1.vm.network "private_network", ip: "192.168.56.101"
   end
